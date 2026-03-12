@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BHA Strategic IT & AI Leadership Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -43,9 +42,12 @@
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
-            height: 50vh;
-            max-height: 500px;
-            min-height: 350px;
+        }
+        .chart-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 1rem;
         }
         .fade-in {
             animation: fadeIn 0.4s ease-in-out;
@@ -57,11 +59,11 @@
     </style>
     <!-- Chosen Palette: Earthy Conservation (bha-sand background, bha-leaf greens, bha-earth browns, bha-accent orange/tan) -->
     <!-- Application Structure Plan: The SPA is structured as an interactive executive briefing designed to educate non-technical upper management. It flows logically from the current organizational context, to the foundational infrastructure changes required, to the specific AI use cases, and finally culminates in the "Ideal Candidate Profile" radar chart. This structure ensures stakeholders understand *why* specific skills are needed before viewing the candidate requirements. Navigation allows quick jumping to sections. Interactions like the "Current vs Future" infrastructure toggle visually simplify complex decoupling concepts. -->
-    <!-- Visualization & Content Choices: 
-         1. Infrastructure Evolution: Goal -> Compare current monolithic state to future decoupled state. Viz -> Interactive CSS Grid toggle. Interaction -> Click to switch states. Justification -> Visualizing "decoupling" is easier than reading about it for non-tech users. Library -> Vanilla JS + Tailwind.
-         2. AI Initiatives: Goal -> Categorize and explain complex AI types. Viz -> Expandable details cards. Interaction -> Click to reveal specific BHA use cases (Predictive vs Generative). Justification -> Prevents information overload while allowing deep dives. Library -> Vanilla JS.
-         3. Candidate Skills: Goal -> Compare traditional IT skills vs the required strategic AI enabler skills. Viz -> Radar Chart. Interaction -> Hover for exact scores. Justification -> Instantly highlights the shift from hardware/helpdesk to architecture/governance. Library -> Chart.js. Confirming NO SVG/Mermaid used. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+        <!-- Visualization & Content Choices: 
+            1. Infrastructure Evolution: Goal -> Compare current monolithic state to future decoupled state. Viz -> Interactive CSS Grid toggle. Interaction -> Click to switch states. Justification -> Visualizing "decoupling" is easier than reading about it for non-tech users. Library -> Vanilla JS + Tailwind.
+            2. AI Initiatives: Goal -> Categorize and explain complex AI types. Viz -> Expandable details cards. Interaction -> Click to reveal specific BHA use cases (Predictive vs Generative). Justification -> Prevents information overload while allowing deep dives. Library -> Vanilla JS.
+            3. Candidate Skills: Goal -> Compare traditional IT skills vs the required strategic AI enabler skills. Viz -> Static radar chart image. Interaction -> None in the embedded version. Justification -> Preserves the original visual while removing the Chart.js runtime dependency for SharePoint embedding. Asset -> Local SVG file. -->
+        <!-- CONFIRMATION: Static SVG graphic used for the candidate skills comparison. NO Mermaid JS used. -->
 </head>
 <body class="antialiased font-sans flex flex-col min-h-screen">
 
@@ -229,9 +231,13 @@
                     </div>
 
                     <div class="w-full md:w-2/3 flex justify-center">
-                        <div class="chart-container">
-                            <canvas id="skillsRadarChart"></canvas>
-                        </div>
+                        <figure class="chart-container">
+                            <img
+                                src="assets/skills-radar-chart.svg"
+                                alt="Static radar chart comparing a traditional IT manager profile with the strategic Head of IT profile needed for BHA"
+                                class="chart-image"
+                            >
+                        </figure>
                     </div>
                 </div>
             </div>
@@ -362,102 +368,6 @@
                 genContainer.classList.add('fade-in');
             };
 
-            const ctx = document.getElementById('skillsRadarChart').getContext('2d');
-            
-            Chart.defaults.font.family = "'Inter', 'system-ui', 'sans-serif'";
-            Chart.defaults.color = '#4B5563';
-
-            new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: [
-                        'Cloud & Data Architecture',
-                        'Data Governance & Schemas',
-                        'System Decoupling (OLTP/OLAP)',
-                        'AI Pipeline Enablement',
-                        'Strategic Vendor Mgmt (MSP)',
-                        'Hardware/Server Setup',
-                        'Helpdesk Ticketing'
-                    ],
-                    datasets: [{
-                        label: 'Traditional IT Manager',
-                        data: [3, 4, 2, 2, 5, 9, 9],
-                        backgroundColor: 'rgba(156, 163, 175, 0.2)',
-                        borderColor: 'rgba(156, 163, 175, 1)',
-                        pointBackgroundColor: 'rgba(156, 163, 175, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(156, 163, 175, 1)',
-                        borderWidth: 2
-                    }, {
-                        label: 'Strategic Head of IT (Ideal)',
-                        data: [9, 9, 8, 8, 8, 3, 1],
-                        backgroundColor: 'rgba(46, 90, 39, 0.2)', 
-                        borderColor: '#2E5A27',
-                        pointBackgroundColor: '#2E5A27',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: '#2E5A27',
-                        borderWidth: 3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                            pointLabels: {
-                                font: { size: 12, weight: '600' },
-                                color: '#1A1A1A',
-                                callback: function(word) {
-                                    let words = word.split(' ');
-                                    let lines = [];
-                                    let currentLine = '';
-                                    words.forEach(w => {
-                                        if ((currentLine + w).length > 16) {
-                                            lines.push(currentLine.trim());
-                                            currentLine = w + ' ';
-                                        } else {
-                                            currentLine += w + ' ';
-                                        }
-                                    });
-                                    lines.push(currentLine.trim());
-                                    return lines;
-                                }
-                            },
-                            ticks: {
-                                display: false,
-                                min: 0,
-                                max: 10,
-                                stepSize: 2
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                usePointStyle: true,
-                                font: { size: 14 }
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0,0,0,0.8)',
-                            padding: 12,
-                            titleFont: { size: 14 },
-                            bodyFont: { size: 13 },
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': ' + context.raw + '/10';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
         });
     </script>
 </body>
