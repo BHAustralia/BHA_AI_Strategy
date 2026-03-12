@@ -124,11 +124,18 @@
 
             <div id="infra-display" class="bg-bha-sand p-8 rounded-xl border border-gray-300 min-h-[400px] flex items-center justify-center fade-in">
                 
-                <div id="state-current" class="text-center w-full max-w-md">
-                    <div class="bg-white border-2 border-red-400 p-6 rounded-lg shadow-md mb-4 relative">
-                        <div class="absolute -top-3 -right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow">Bottleneck</div>
-                        <h4 class="font-bold text-xl text-gray-800 mb-2">&#128452; All-in-One SQL Server</h4>
-                        <p class="text-sm text-gray-600">Handles ArcGIS operations, BI reporting, and attempts to store raw data simultaneously.</p>
+                <div id="state-current" class="text-center w-full max-w-2xl">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-white border-2 border-red-400 p-6 rounded-lg shadow-md relative">
+                            <div class="absolute -top-3 -right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow">Bottleneck</div>
+                            <h4 class="font-bold text-xl text-gray-800 mb-2">&#128452; All-in-One SQL Server</h4>
+                            <p class="text-sm text-gray-600">Handles ArcGIS operations, BI reporting, and attempts to store raw data simultaneously.</p>
+                        </div>
+                        <div class="bg-white border-2 border-orange-400 p-6 rounded-lg shadow-md relative">
+                            <div class="absolute -top-3 -right-3 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow">Ungoverned</div>
+                            <h4 class="font-bold text-xl text-gray-800 mb-2">&#9728; Azure Blob Storage</h4>
+                            <p class="text-sm text-gray-600">Used for storing of raw and processed camera trap images.</p>
+                        </div>
                     </div>
                     <div class="flex justify-center space-x-4">
                         <div class="bg-white p-3 rounded shadow text-sm border border-gray-200">&#128205; GIS Ops</div>
