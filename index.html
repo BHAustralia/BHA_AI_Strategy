@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BHA Strategic IT & AI Leadership Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bha: {
+                            sand: '#F5F5F0',
+                            earth: '#8B7355',
+                            leaf: '#2E5A27',
+                            sage: '#8F9779',
+                            dark: '#1A1A1A',
+                            accent: '#D4A373'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F5F5F0;
+            color: #1A1A1A;
+        }
+        .nav-active {
+            border-bottom: 2px solid #2E5A27;
+            font-weight: 600;
+            color: #2E5A27;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50vh;
+            max-height: 500px;
+            min-height: 350px;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <!-- Chosen Palette: Earthy Conservation (bha-sand background, bha-leaf greens, bha-earth browns, bha-accent orange/tan) -->
+    <!-- Application Structure Plan: The SPA is structured as an interactive executive briefing designed to educate non-technical upper management. It flows logically from the current organizational context, to the foundational infrastructure changes required, to the specific AI use cases, and finally culminates in the "Ideal Candidate Profile" radar chart. This structure ensures stakeholders understand *why* specific skills are needed before viewing the candidate requirements. Navigation allows quick jumping to sections. Interactions like the "Current vs Future" infrastructure toggle visually simplify complex decoupling concepts. -->
+    <!-- Visualization & Content Choices: 
+         1. Infrastructure Evolution: Goal -> Compare current monolithic state to future decoupled state. Viz -> Interactive CSS Grid toggle. Interaction -> Click to switch states. Justification -> Visualizing "decoupling" is easier than reading about it for non-tech users. Library -> Vanilla JS + Tailwind.
+         2. AI Initiatives: Goal -> Categorize and explain complex AI types. Viz -> Expandable details cards. Interaction -> Click to reveal specific BHA use cases (Predictive vs Generative). Justification -> Prevents information overload while allowing deep dives. Library -> Vanilla JS.
+         3. Candidate Skills: Goal -> Compare traditional IT skills vs the required strategic AI enabler skills. Viz -> Radar Chart. Interaction -> Hover for exact scores. Justification -> Instantly highlights the shift from hardware/helpdesk to architecture/governance. Library -> Chart.js. Confirming NO SVG/Mermaid used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased font-sans flex flex-col min-h-screen">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-bha-leaf tracking-tight">BHA Tech Strategy</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center" id="nav-links">
+                    <button data-target="context" class="nav-btn nav-active text-gray-600 hover:text-bha-leaf px-1 py-2 text-sm font-medium transition-colors">Context & Vision</button>
+                    <button data-target="infrastructure" class="nav-btn text-gray-600 hover:text-bha-leaf px-1 py-2 text-sm font-medium transition-colors">Infrastructure</button>
+                    <button data-target="ai-roadmap" class="nav-btn text-gray-600 hover:text-bha-leaf px-1 py-2 text-sm font-medium transition-colors">AI Roadmap</button>
+                    <button data-target="role-profile" class="nav-btn text-gray-600 hover:text-bha-leaf px-1 py-2 text-sm font-medium transition-colors">Candidate Profile</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-24">
+
+        <section id="context" class="scroll-mt-24">
+            <header class="mb-8">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-bha-leaf mb-4">Shaping the Future of IT at BHA</h1>
+                <p class="text-xl text-gray-700 leading-relaxed max-w-3xl">
+                    As Bush Heritage Australia scales its conservation impact across geographically dispersed reserves, our technology strategy must evolve. This briefing outlines the necessary transition from a traditional IT support model to an AI-enabled, data-driven architecture, and defines the crucial skills required for our new Head of IT to lead this transformation.
+                </p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-bha-earth">
+                    <div class="text-3xl mb-4">&#128202;</div>
+                    <h3 class="text-xl font-bold text-bha-dark mb-2">The Data Foundation Challenge</h3>
+                    <p class="text-gray-600">
+                        Our "Standardised Methods" require semantic clarity. We currently lack a unified central data dictionary for entities like "Reserve," "Project," and "Site". To achieve national consistency and prevent a "data swamp," we must enforce strict schema and data quality at the point of entry, aligning closely with the MERG framework.
+                    </p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-bha-sage">
+                    <div class="text-3xl mb-4">&#129309;</div>
+                    <h3 class="text-xl font-bold text-bha-dark mb-2">Leveraging the MSP</h3>
+                    <p class="text-gray-600">
+                        BHA relies on a Managed Service Provider (MSP) for day-to-day IT support and ticketing. The new Head of IT must strategically manage this vendor to handle baseline operations, freeing up internal capacity to architect the advanced data systems required for our geographically dispersed ecological operations.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="infrastructure" class="scroll-mt-24 bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+            <h2 class="text-3xl font-bold text-bha-leaf mb-4">Infrastructure Evolution: Decoupling for Scale</h2>
+            <p class="text-lg text-gray-700 mb-8 max-w-4xl">
+                This section illustrates the necessary shift in our backend architecture. To support an automated, "big data future" utilizing acoustics, camera traps, and AI, we must decouple our systems. Explore the interactive diagram below to understand why our current monolithic SQL Server approach creates a bottleneck and how separating operations from analytics solves it.
+            </p>
+
+            <div class="flex justify-center mb-8 space-x-4">
+                <button id="btn-current-state" class="px-6 py-3 rounded-md font-semibold bg-bha-leaf text-white transition-colors">Current State (Monolithic)</button>
+                <button id="btn-future-state" class="px-6 py-3 rounded-md font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">Future State (Decoupled)</button>
+            </div>
+
+            <div id="infra-display" class="bg-bha-sand p-8 rounded-xl border border-gray-300 min-h-[400px] flex items-center justify-center fade-in">
+                
+                <div id="state-current" class="text-center w-full max-w-md">
+                    <div class="bg-white border-2 border-red-400 p-6 rounded-lg shadow-md mb-4 relative">
+                        <div class="absolute -top-3 -right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow">Bottleneck</div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-2">&#128452; All-in-One SQL Server</h4>
+                        <p class="text-sm text-gray-600">Handles ArcGIS operations, BI reporting, and attempts to store raw data simultaneously.</p>
+                    </div>
+                    <div class="flex justify-center space-x-4">
+                        <div class="bg-white p-3 rounded shadow text-sm border border-gray-200">&#128205; GIS Ops</div>
+                        <div class="bg-white p-3 rounded shadow text-sm border border-gray-200">&#128200; BI Reports</div>
+                        <div class="bg-white p-3 rounded shadow text-sm border border-gray-200">&#128247; Heavy Imagery</div>
+                    </div>
+                </div>
+
+                <div id="state-future" class="hidden w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white border-2 border-bha-leaf p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+                        <div class="text-3xl mb-2">&#9881;</div>
+                        <h4 class="font-bold text-lg text-gray-800 mb-2">Operational (OLTP)</h4>
+                        <p class="text-xs text-gray-600 mb-4">On-prem SQL Server / Geodatabase dedicated strictly to fast, day-to-day transactional data entry.</p>
+                    </div>
+                    <div class="bg-white border-2 border-blue-400 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+                        <div class="text-3xl mb-2">&#128200;</div>
+                        <h4 class="font-bold text-lg text-gray-800 mb-2">Analytical (OLAP)</h4>
+                        <p class="text-xs text-gray-600 mb-4">Dedicated Data Warehouse structured specifically for BI, reporting, and automated quantitative assessments.</p>
+                    </div>
+                    <div class="bg-white border-2 border-purple-400 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+                        <div class="text-3xl mb-2">&#9728;</div>
+                        <h4 class="font-bold text-lg text-gray-800 mb-2">Data Lake (Azure Blob)</h4>
+                        <p class="text-xs text-gray-600 mb-4">Scalable landing zone for unstructured sensor data (drones, acoustics). The primary enabler for AI pipelines.</p>
+                    </div>
+                </div>
+
+            </div>
+            <div id="infra-explanation" class="mt-6 text-center text-gray-700 italic">
+                Currently showing: The 'all-in-one' approach risks system performance degradation as data volumes grow.
+            </div>
+        </section>
+
+        <section id="ai-roadmap" class="scroll-mt-24">
+            <h2 class="text-3xl font-bold text-bha-leaf mb-4">Scaling Impact: The AI Implementation Path</h2>
+            <p class="text-lg text-gray-700 mb-8 max-w-4xl">
+                AI is not a single tool, but a spectrum of capabilities requiring phased implementation, strong governance, and distinct skill sets. This section details our strategic roadmap, categorized by AI type and deployment phase, ensuring we prioritize based on ROI and technological readiness rather than chasing trends. Click on the phases below to explore specific BHA initiatives.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button onclick="updateAIView('short')" id="btn-ai-short" class="px-5 py-2 rounded-full border-2 border-bha-leaf bg-bha-leaf text-white font-medium transition-colors">Phase 1: Short Term</button>
+                <button onclick="updateAIView('med')" id="btn-ai-med" class="px-5 py-2 rounded-full border-2 border-gray-300 text-gray-600 hover:border-bha-leaf transition-colors">Phase 2: Medium Term</button>
+                <button onclick="updateAIView('long')" id="btn-ai-long" class="px-5 py-2 rounded-full border-2 border-gray-300 text-gray-600 hover:border-bha-leaf transition-colors">Phase 3: Long Term</button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <div class="flex items-center space-x-3 mb-4 border-b pb-4">
+                        <div class="text-2xl">&#128269;</div>
+                        <h3 class="text-xl font-bold text-bha-dark">Predictive AI (Non-Generative)</h3>
+                    </div>
+                    <div id="ai-predictive-content" class="text-gray-700 fade-in min-h-[150px]">
+                        <p class="font-semibold text-bha-leaf mb-2">The "Quick Win": Baseline Reserve Assessments</p>
+                        <p class="text-sm">Utilizing Satellite imagery and Google Embeddings to rapidly assess new reserves. <br><br><strong>Challenge:</strong> Defining methodology—whether models run nationally or are landscape-specific (utilizing specific spectral indexes for focal values responsive to local management effects).</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <div class="flex items-center space-x-3 mb-4 border-b pb-4">
+                        <div class="text-2xl">&#129302;</div>
+                        <h3 class="text-xl font-bold text-bha-dark">Cognitive & Agentic AI (Generative)</h3>
+                    </div>
+                    <div id="ai-gen-content" class="text-gray-700 fade-in min-h-[150px]">
+                        <p class="font-semibold text-purple-700 mb-2">Technical Productivity</p>
+                        <p class="text-sm">Accelerating internal software development (S&D, Ag teams) using tools like Claude Code.<br><br><strong>Requirement:</strong> Strict governance and code-management guidelines must be established first by the Head of IT.</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="mt-8 bg-orange-50 border-l-4 border-orange-400 p-4 rounded-r-lg">
+                <p class="text-sm text-orange-800"><strong>Crucial Prerequisite:</strong> Regardless of the phase, Agentic workflows require documented processes and a single source of truth to prevent AI "hallucinations" and ensure ecological accuracy.</p>
+            </div>
+        </section>
+
+        <section id="role-profile" class="scroll-mt-24">
+            <h2 class="text-3xl font-bold text-bha-leaf mb-4">The Ideal Candidate: Architectural Enabler</h2>
+            <p class="text-lg text-gray-700 mb-8 max-w-4xl">
+                Upper management must recognize that leading AI adoption does not necessarily mean writing AI algorithms. The ideal Head of IT is an <strong>architectural enabler</strong>. They build the data foundations (Data Lakes, schemas) and govern the processes that allow our ecologists and data scientists to deploy AI effectively. The chart below contrasts a traditional IT manager profile with the strategic profile required for BHA's future.
+            </p>
+
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                    
+                    <div class="w-full md:w-1/3 space-y-6">
+                        <div>
+                            <div class="flex items-center space-x-2 mb-1">
+                                <span class="w-4 h-4 rounded-full bg-gray-400"></span>
+                                <h4 class="font-bold text-gray-700">Traditional IT Manager</h4>
+                            </div>
+                            <p class="text-sm text-gray-600 pl-6">Focuses heavily on hardware maintenance, local server administration, and direct helpdesk ticketing. Often struggles to scale data infrastructure for advanced analytics.</p>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2 mb-1">
+                                <span class="w-4 h-4 rounded-full bg-bha-leaf"></span>
+                                <h4 class="font-bold text-bha-leaf">Strategic Head of IT (BHA Ideal)</h4>
+                            </div>
+                            <p class="text-sm text-gray-600 pl-6">Leverages the MSP for standard support. Excels in cloud architecture (Azure), data governance, decoupling systems, and building the scalable data pipelines (Data Lakes) required to operationalize AI.</p>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-2/3 flex justify-center">
+                        <div class="chart-container">
+                            <canvas id="skillsRadarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-bha-dark text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-sm text-gray-400">Bush Heritage Australia - Internal IT & AI Strategy Briefing</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const sections = document.querySelectorAll('section');
+            const navButtons = document.querySelectorAll('.nav-btn');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-20% 0px -70% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navButtons.forEach(btn => {
+                            btn.classList.remove('nav-active', 'text-bha-leaf');
+                            btn.classList.add('text-gray-600');
+                            if (btn.getAttribute('data-target') === entry.target.id) {
+                                btn.classList.add('nav-active', 'text-bha-leaf');
+                                btn.classList.remove('text-gray-600');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(sec => observer.observe(sec));
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-target');
+                    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            const btnCurrent = document.getElementById('btn-current-state');
+            const btnFuture = document.getElementById('btn-future-state');
+            const stateCurrent = document.getElementById('state-current');
+            const stateFuture = document.getElementById('state-future');
+            const infraExplanation = document.getElementById('infra-explanation');
+
+            btnCurrent.addEventListener('click', () => {
+                btnCurrent.classList.replace('bg-gray-200', 'bg-bha-leaf');
+                btnCurrent.classList.replace('text-gray-700', 'text-white');
+                btnFuture.classList.replace('bg-bha-leaf', 'bg-gray-200');
+                btnFuture.classList.replace('text-white', 'text-gray-700');
+                
+                stateFuture.classList.add('hidden');
+                stateCurrent.classList.remove('hidden');
+                stateCurrent.classList.add('fade-in');
+                infraExplanation.textContent = "Currently showing: The 'all-in-one' approach risks system performance degradation as data volumes grow.";
+            });
+
+            btnFuture.addEventListener('click', () => {
+                btnFuture.classList.replace('bg-gray-200', 'bg-bha-leaf');
+                btnFuture.classList.replace('text-gray-700', 'text-white');
+                btnCurrent.classList.replace('bg-bha-leaf', 'bg-gray-200');
+                btnCurrent.classList.replace('text-white', 'text-gray-700');
+                
+                stateCurrent.classList.add('hidden');
+                stateFuture.classList.remove('hidden');
+                stateFuture.classList.add('fade-in');
+                infraExplanation.textContent = "Currently showing: Decoupling creates a dedicated Data Lake landing zone, the primary enabler for centralized AI sensor processing.";
+            });
+
+            const aiData = {
+                short: {
+                    pred: `<p class="font-semibold text-bha-leaf mb-2">The "Quick Win": Baseline Reserve Assessments</p>
+                           <p class="text-sm">Utilizing Satellite imagery and Google Embeddings to rapidly assess new reserves. <br><br><strong>Challenge:</strong> Defining methodology—whether models run nationally or are landscape-specific (utilizing specific spectral indexes for focal values responsive to local management effects).</p>`,
+                    gen: `<p class="font-semibold text-purple-700 mb-2">Technical Productivity</p>
+                          <p class="text-sm">Accelerating internal software development (S&D, Ag teams) using tools like Claude Code.<br><br><strong>Requirement:</strong> Strict governance and code-management guidelines must be established first by the Head of IT.</p>`
+                },
+                med: {
+                    pred: `<p class="font-semibold text-bha-leaf mb-2">Standardized National Rollout</p>
+                           <p class="text-sm">Transitioning acoustics and camera trap processing from "experimental pilots" to automated national pipelines.<br><br><strong>Requirement:</strong> Significant DevOps effort led by IT to ensure scalability and integration with the Azure Data Lake.</p>`,
+                    gen: `<p class="font-semibold text-purple-700 mb-2">Domain-Specific QA Agents</p>
+                          <p class="text-sm">Developing specialized agents to answer complex internal queries reliably. (e.g., "Which monitoring methods are required for Reserve X?").<br><br><strong>Requirement:</strong> Requires a heavily structured central data dictionary (Unified Language).</p>`
+                },
+                long: {
+                    pred: `<p class="font-semibold text-bha-leaf mb-2">Advanced Predictive Analytics</p>
+                           <p class="text-sm">Utilizing centralized, clean data from the Data Warehouse to forecast ecological trends and evaluate management effectiveness automatically over long time horizons.</p>`,
+                    gen: `<p class="font-semibold text-purple-700 mb-2">Autonomous Agentic Workflows</p>
+                          <p class="text-sm">Moving beyond chatbots to agents that set goals, plan multi-step workflows, and provide adaptive management decision support, or tailor onboarding training for ecologists based on specific reserve data.</p>`
+                }
+            };
+
+            window.updateAIView = function(phase) {
+                const btns = ['short', 'med', 'long'];
+                btns.forEach(b => {
+                    const el = document.getElementById(`btn-ai-${b}`);
+                    if(b === phase) {
+                        el.classList.replace('bg-transparent', 'bg-bha-leaf');
+                        el.classList.replace('border-gray-300', 'border-bha-leaf');
+                        el.classList.replace('text-gray-600', 'text-white');
+                        el.classList.add('bg-bha-leaf');
+                    } else {
+                        el.classList.remove('bg-bha-leaf', 'text-white');
+                        el.classList.add('text-gray-600', 'border-gray-300');
+                    }
+                });
+
+                const predContainer = document.getElementById('ai-predictive-content');
+                const genContainer = document.getElementById('ai-gen-content');
+                
+                predContainer.classList.remove('fade-in');
+                genContainer.classList.remove('fade-in');
+                
+                void predContainer.offsetWidth; 
+                
+                predContainer.innerHTML = aiData[phase].pred;
+                genContainer.innerHTML = aiData[phase].gen;
+                
+                predContainer.classList.add('fade-in');
+                genContainer.classList.add('fade-in');
+            };
+
+            const ctx = document.getElementById('skillsRadarChart').getContext('2d');
+            
+            Chart.defaults.font.family = "'Inter', 'system-ui', 'sans-serif'";
+            Chart.defaults.color = '#4B5563';
+
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        'Cloud & Data Architecture',
+                        'Data Governance & Schemas',
+                        'System Decoupling (OLTP/OLAP)',
+                        'AI Pipeline Enablement',
+                        'Strategic Vendor Mgmt (MSP)',
+                        'Hardware/Server Setup',
+                        'Helpdesk Ticketing'
+                    ],
+                    datasets: [{
+                        label: 'Traditional IT Manager',
+                        data: [3, 4, 2, 2, 5, 9, 9],
+                        backgroundColor: 'rgba(156, 163, 175, 0.2)',
+                        borderColor: 'rgba(156, 163, 175, 1)',
+                        pointBackgroundColor: 'rgba(156, 163, 175, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(156, 163, 175, 1)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Strategic Head of IT (Ideal)',
+                        data: [9, 9, 8, 8, 8, 3, 1],
+                        backgroundColor: 'rgba(46, 90, 39, 0.2)', 
+                        borderColor: '#2E5A27',
+                        pointBackgroundColor: '#2E5A27',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#2E5A27',
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            pointLabels: {
+                                font: { size: 12, weight: '600' },
+                                color: '#1A1A1A',
+                                callback: function(word) {
+                                    let words = word.split(' ');
+                                    let lines = [];
+                                    let currentLine = '';
+                                    words.forEach(w => {
+                                        if ((currentLine + w).length > 16) {
+                                            lines.push(currentLine.trim());
+                                            currentLine = w + ' ';
+                                        } else {
+                                            currentLine += w + ' ';
+                                        }
+                                    });
+                                    lines.push(currentLine.trim());
+                                    return lines;
+                                }
+                            },
+                            ticks: {
+                                display: false,
+                                min: 0,
+                                max: 10,
+                                stepSize: 2
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                font: { size: 14 }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            padding: 12,
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 13 },
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw + '/10';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
